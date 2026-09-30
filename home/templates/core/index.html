@@ -4,38 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A VendaTech organiza vendas, clientes e resultados da sua pequena empresa em um só lugar.">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>VendaTech | SaaS</title>
+    <title>VendaTech | Seu seu negócio em um só lugar</title>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            VendaTech
-        </div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#">Sobre</a>
-            <a href="#">Entrar</a>
+    <header class="site-header">
+        <a class="logo" href="#inicio" aria-label="VendaTech, início"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="#recursos">Recursos</a>
+            <a href="#sobre">Sobre</a>
+            <a class="nav-login" href="#contato">Entrar <span aria-hidden="true">↗</span></a>
         </nav>
     </header>
-    <section id="home">
-        <br>
-        <main class="content">
-            <div class="block">
-                A PLATAFORMA SAAS PARA PEQUENAS EMPRESAS
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> GESTÃO SIMPLES. CRESCIMENTO REAL.</p>
+                <h1>Seu negócio merece um dia a dia <span>mais leve.</span></h1>
+                <p class="hero-description">Vendas, clientes e resultados em um só lugar. Menos planilha, mais tempo para fazer sua empresa acontecer.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#contato">Quero conhecer <span aria-hidden="true">↗</span></a>
+                    <a class="text-link" href="#recursos">Explore a plataforma <span aria-hidden="true">↓</span></a>
+                </div>
+                <div class="hero-note"><span class="avatar-stack" aria-hidden="true"><i>R</i><i>M</i><i>A</i></span><span>Feita para quem faz acontecer.</span></div>
             </div>
-            <h1>Tenha o controle do seu negócio em um só lugar.</h1>
-            <br><br>
-            <div class="text">
-                <p style="color: var(--text2);">Uma solução moderna para organizar vendas, clientes, finanças e relatórios em um só lugar, com uma experiência simples, eficiente e preparada para crescer.</p>
-                <p style="color: var(--text2);">Receba atualizações frequentes de design e funcionalidades para manter seu negócio sempre ágil.</p>
+
+            <div class="dashboard-wrap" aria-label="Prévia do painel de vendas VendaTech">
+                <div class="dashboard">
+                    <div class="dash-topbar">
+                        <div class="dash-brand"><span class="dash-mark">v.</span> vendatech</div>
+                        <div class="dash-user"><span class="online-dot"></span> Visão geral <span class="user-avatar">LA</span></div>
+                    </div>
+                    <div class="dash-content">
+                        <div class="dash-heading"><div><p class="dash-kicker">QUARTA-FEIRA, 18 DE JUNHO</p><h2>Bom dia, Lucas <span>☀</span></h2></div><button type="button" class="period-button">Este mês <span>⌄</span></button></div>
+                        <div class="metric-grid">
+                            <article class="metric-card"><p>Vendas do mês</p><strong>R$ 24.850</strong><span class="metric-change">↗ 12,8% <small>vs. mês passado</small></span></article>
+                            <article class="metric-card"><p>Pedidos</p><strong>186</strong><span class="metric-change">↗ 8,2% <small>vs. mês passado</small></span></article>
+                            <article class="metric-card"><p>Ticket médio</p><strong>R$ 133,60</strong><span class="metric-change">↗ 3,4% <small>vs. mês passado</small></span></article>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-heading"><div><p>VENDAS AO LONGO DO MÊS</p><strong>R$ 24.850,00</strong></div><span class="chart-legend"><i></i> Este mês</span></div>
+                            <div class="chart" aria-hidden="true"><div class="chart-lines"><i></i><i></i><i></i><i></i></div><div class="chart-bars"><i style="--bar: 38%"></i><i style="--bar: 54%"></i><i style="--bar: 43%"></i><i style="--bar: 67%"></i><i style="--bar: 51%"></i><i style="--bar: 74%"></i><i style="--bar: 63%"></i><i style="--bar: 91%"></i><i style="--bar: 68%"></i><i style="--bar: 82%"></i><i style="--bar: 73%"></i><i class="bar-highlight" style="--bar: 100%"></i></div></div>
+                            <div class="chart-labels"><span>01 jun</span><span>08 jun</span><span>15 jun</span><span>30 jun</span></div>
+                        </div>
+                        <div class="dash-footer"><span><i class="status-pulse"></i> Tudo atualizado</span><span>Dados em tempo real</span></div>
+                    </div>
+                </div>
+                <div class="floating-tag"><span>✳</span> Um passo à frente, todo dia.</div>
             </div>
-            <div class="buttons">
-                <a href="#" id="btn">Comece agora</a>
-                <a href="#" id="btn2">Saiba mais</a>
+            <div class="hero-stamp" aria-hidden="true">CRESÇA<br>NO SEU<br>RITMO <span>↗</span></div>
+        </section>
+
+        <section class="trust-strip" aria-label="Benefícios da plataforma">
+            <p>O essencial para sua empresa crescer com confiança</p>
+            <div><span>◉ &nbsp;Vendas organizadas</span><span>✳ &nbsp;Dados claros</span><span>↗ &nbsp;Decisões melhores</span></div>
+        </section>
+
+        <section class="features" id="recursos">
+            <div class="section-intro">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> MENOS CORRERIA, MAIS CLAREZA</p>
+                <h2>Tudo flui melhor quando<br>você enxerga o todo.</h2>
+                <p>Uma rotina mais organizada começa com as ferramentas certas, sem complicar o que já funciona.</p>
             </div>
-        </main>
-    </section>
+            <div class="feature-grid">
+                <article class="feature-item feature-green"><span class="feature-icon">↗</span><p class="feature-number">01 / VENDAS</p><h3>Saiba o que está vendendo.</h3><p>Acompanhe pedidos e faturamento com uma visão clara do que está dando resultado.</p><a href="#contato">Ver suas vendas <span>→</span></a></article>
+                <article class="feature-item feature-peach"><span class="feature-icon">◎</span><p class="feature-number">02 / CLIENTES</p><h3>Cuide de cada relação.</h3><p>Encontre o histórico de cada cliente e transforme um bom atendimento em parceria.</p><a href="#contato">Conhecer clientes <span>→</span></a></article>
+                <article class="feature-item feature-blue"><span class="feature-icon">▥</span><p class="feature-number">03 / RESULTADOS</p><h3>Decida com confiança.</h3><p>Entenda seus números sem precisar decifrar relatórios ou juntar dados espalhados.</p><a href="#contato">Explorar resultados <span>→</span></a></article>
+            </div>
+        </section>
+
+        <section class="about" id="sobre">
+            <div class="about-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="about-spark">✳</div><span>IDEIAS<br>EM MOVIMENTO</span></div>
+            <div class="about-copy"><p class="eyebrow"><span class="eyebrow-dot"></span> SOBRE A VENDATECH</p><h2>Quem empreende já tem muito para resolver.</h2><p>A VendaTech nasceu para deixar a gestão mais simples para pequenas empresas. A gente organiza a informação para você cuidar do que realmente importa: o próximo passo do seu negócio.</p><a class="text-link" href="#contato">Vamos nessa? <span aria-hidden="true">↗</span></a></div>
+        </section>
+
+        <section class="contact" id="contato">
+            <div><p class="eyebrow"><span class="eyebrow-dot"></span> SUA PRÓXIMA FASE COMEÇA AQUI</p><h2>Mais clareza para<br>fazer acontecer.</h2></div>
+            <a class="button button-dark" href="mailto:oi@vendatech.com.br">Fale com a gente <span aria-hidden="true">↗</span></a>
+            <span class="contact-star" aria-hidden="true">✳</span>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="logo" href="#inicio"><span class="logo-mark">v.</span> VendaTech</a>
+        <p>Feita para quem faz acontecer.</p>
+        <span>© 2025 VendaTech. Todos os direitos reservados.</span>
+    </footer>
 </body>
 </html>
