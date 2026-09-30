@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
     <title>VendaTech | Seu seu negócio em um só lugar</title>
 </head>
 <body>
@@ -29,7 +30,7 @@
                 <h1>Seu negócio merece um dia a dia <span>mais leve.</span></h1>
                 <p class="hero-description">Vendas, clientes e resultados em um só lugar. Menos planilha, mais tempo para fazer sua empresa acontecer.</p>
                 <div class="hero-actions">
-                    <a class="button button-primary" href="#contato">Quero conhecer <span aria-hidden="true">↗</span></a>
+                    <a class="button button-primary" href="{% url 'register' %}">Começar agora <span aria-hidden="true">↗</span></a>
                     <a class="text-link" href="#recursos">Explore a plataforma <span aria-hidden="true">↓</span></a>
                 </div>
                 <div class="hero-note"><span class="avatar-stack" aria-hidden="true"><i>R</i><i>M</i><i>A</i></span><span>Feita para quem faz acontecer.</span></div>
@@ -86,7 +87,7 @@
 
         <section class="contact" id="contato">
             <div><p class="eyebrow"><span class="eyebrow-dot"></span> SUA PRÓXIMA FASE COMEÇA AQUI</p><h2>Mais clareza para<br>fazer acontecer.</h2></div>
-            <a class="button button-dark" href="mailto:oi@vendatech.com.br">Fale com a gente <span aria-hidden="true">↗</span></a>
+            <a class="button button-dark" href="https://wa.me/5581994317883">Fale com a gente <span aria-hidden="true">↗</span></a>
             <span class="contact-star" aria-hidden="true">✳</span>
         </section>
     </main>

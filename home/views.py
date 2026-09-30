@@ -39,17 +39,25 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Cria um novo usuário
-        user = User.objects.create_user(username=email, email=email, password=password)
-        user.save()
+        # Verifica se o email já está cadastrado
+        if User.objects.filter(username=email).exists():
+            return render(request, 'core/register.html', {
+                'error': 'Este email já está cadastrado.'
+            })
 
-        # Autentica e faz login do usuário recém-criado
-        user = authenticate(request, username=email, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('dashboard')  # Redireciona para o dashboard após o registro bem-sucedido
+        # Cria o usuário
+        new_user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password
+        )
+
+        # Faz login automaticamente
+        login(request, new_user)
+
+        return redirect('dashboard')
+
     return render(request, 'core/register.html')
-
 
 @login_required(login_url='auth')
 def dashboard(request):

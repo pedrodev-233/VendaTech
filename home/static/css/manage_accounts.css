@@ -266,6 +266,78 @@
     }
 
     .admin-topbar {
+        min-height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 18px 0;
+    }
+
+    .admin-nav {
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+    }
+
+    .admin-main {
+        padding: 36px 0 48px;
+    }
+
+    .admin-heading,
+    .accounts-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .admin-heading {
+        margin-bottom: 28px;
+    }
+
+    .admin-heading h1 {
+        font-size: 32px;
+    }
+
+    .admin-description {
+        max-width: 34ch;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .accounts-section-heading {
+        padding: 22px 0 16px;
+    }
+
+    .protected-note {
+        line-height: 1.5;
+    }
+
+    .accounts-table-scroll {
+        overscroll-behavior-x: contain;
+    }
+
+    .accounts-table-scroll table {
+        min-width: 680px;
+    }
+
+    .accounts-table-scroll th,
+    .accounts-table-scroll td {
+        padding: 12px;
+    }
+
+    .action-button {
+        min-height: 36px;
+        padding: 0 9px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-topbar,
+    .admin-main {
+        width: calc(100% - 32px);
+    }
+
+    .admin-topbar {
         min-height: 66px;
     }
 
