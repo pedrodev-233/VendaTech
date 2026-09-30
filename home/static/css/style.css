@@ -1,0 +1,134 @@
+:root {
+    --primary: #000000;
+    --secundary: #0064fa;
+    --b1: #7bb2fd;
+    --b2: #0e0ec8;
+    --bg: #808080;
+    --text: #d9d7d7;
+    --text2: #939393;
+    --border: 0.1px solid gray;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter';
+    width: 100%;
+    background: var(--primary);
+    color: var(--text);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 9vh;
+    padding: 0 5%;
+    border-bottom: var(--border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: transparent;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    font-size: 35px;
+    font-family: monospace;
+    color: var(--secundary);
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0 5%;
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 55%;
+    margin: 15px;
+}
+
+.block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 400px;
+    height: 4vh;
+    font-size: 13px;
+    border-radius: 20px;
+    border: 0.1px solid var(--secundary);
+    margin: 15px;
+    background: var(--b2);
+    color: var(--text);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+#btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 180px;
+    height: 6vh;
+    font-size: 13px;
+    border-radius: 20px;
+    border: 0.1px solid var(--secundary);
+    margin: 15px;
+    background: var(--b2);
+    color: var(--text);
+}
+
+#btn2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 180px;
+    height: 6vh;
+    font-size: 13px;
+    border-radius: 20px;
+    border: 0.1px solid var(--bg);
+    margin: 15px;
+    background: transparent;
+    color: var(--text2);
+}
+
+
+a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--secundary);
+    transition: 0.3s;
+}
