@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerencie produtos, resultados e funcionários da sua empresa.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Painel | VendaTech</title>
+</head>
+<body>
+    <header class="dashboard-topbar">
+        <a class="logo" href="{% url 'index' %}" aria-label="VendaTech, página inicial"><span class="logo-mark">v.</span> VendaTech</a>
+        <div class="dashboard-account">
+            {% if request.user.is_superuser %}<a class="account-admin-link" href="{% url 'manage_accounts' %}">Contas</a>{% endif %}
+            <span class="online-dot" aria-hidden="true"></span>{{ request.user.get_short_name|default:request.user.username }}
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-heading">
+            <div>
+                <p class="eyebrow"><span class="eyebrow-dot"></span> VISÃO GERAL</p>
+                <h1>Seu negócio, em ordem.</h1>
+                <p class="dashboard-intro">Acompanhe seus produtos, resultados e equipe em um só lugar.</p>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="dashboard-messages" role="status">
+                {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="management-section" aria-labelledby="products-title">
+            <div class="section-heading">
+                <div><p class="section-index">01 / CATÁLOGO</p><h2 id="products-title">Produtos</h2></div>
+                <span class="record-count">{{ products|length }} registros</span>
+            </div>
+            <form class="entry-form products-form" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="product">
+                <div class="entry-field"><label for="{{ product_form.name.id_for_label }}">{{ product_form.name.label }}</label>{{ product_form.name }}{{ product_form.name.errors }}</div>
+                <div class="entry-field"><label for="{{ product_form.value.id_for_label }}">{{ product_form.value.label }} (R$)</label>{{ product_form.value }}{{ product_form.value.errors }}</div>
+                <button class="add-button" type="submit">Adicionar</button>
+            </form>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Produto</th><th>Valor</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>R$ {{ product.value|floatformat:2 }}</td>
+                                <td class="action-cell"><form method="post">{% csrf_token %}<input type="hidden" name="action" value="delete_product"><input type="hidden" name="record_id" value="{{ product.pk }}"><button class="delete-button" type="submit" aria-label="Excluir {{ product.name }}">Excluir</button></form></td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="empty-row" colspan="3">Nenhum produto cadastrado.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="management-section" aria-labelledby="results-title">
+            <div class="section-heading">
+                <div><p class="section-index">02 / FINANCEIRO</p><h2 id="results-title">Gastos e lucro</h2></div>
+                <span class="record-count">{{ results|length }} registros</span>
+            </div>
+            <form class="entry-form results-form" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="result">
+                <div class="entry-field"><label for="{{ result_form.expenses.id_for_label }}">Gastos (R$)</label>{{ result_form.expenses }}{{ result_form.expenses.errors }}</div>
+                <div class="entry-field"><label for="{{ result_form.profit.id_for_label }}">Lucro (R$)</label>{{ result_form.profit }}{{ result_form.profit.errors }}</div>
+                <div class="entry-field"><label for="{{ result_form.month.id_for_label }}">{{ result_form.month.label }}</label>{{ result_form.month }}{{ result_form.month.errors }}</div>
+                <button class="add-button" type="submit">Adicionar</button>
+            </form>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Mês</th><th>Gastos</th><th>Lucro</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
+                    <tbody>
+                        {% for result in results %}
+                            <tr>
+                                <td>{{ result.month|date:"m/Y" }}</td>
+                                <td>R$ {{ result.expenses|floatformat:2 }}</td>
+                                <td>R$ {{ result.profit|floatformat:2 }}</td>
+                                <td class="action-cell"><form method="post">{% csrf_token %}<input type="hidden" name="action" value="delete_result"><input type="hidden" name="record_id" value="{{ result.pk }}"><button class="delete-button" type="submit" aria-label="Excluir resultado de {{ result.month|date:'m/Y' }}">Excluir</button></form></td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="empty-row" colspan="4">Nenhum resultado cadastrado.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="management-section" aria-labelledby="employees-title">
+            <div class="section-heading">
+                <div><p class="section-index">03 / EQUIPE</p><h2 id="employees-title">Funcionários</h2></div>
+                <span class="record-count">{{ employees|length }} registros</span>
+            </div>
+            <form class="entry-form employees-form" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="employee">
+                <div class="entry-field"><label for="{{ employee_form.name.id_for_label }}">{{ employee_form.name.label }}</label>{{ employee_form.name }}{{ employee_form.name.errors }}</div>
+                <div class="entry-field"><label for="{{ employee_form.role.id_for_label }}">{{ employee_form.role.label }}</label>{{ employee_form.role }}{{ employee_form.role.errors }}</div>
+                <div class="entry-field"><label for="{{ employee_form.salary.id_for_label }}">{{ employee_form.salary.label }} (R$)</label>{{ employee_form.salary }}{{ employee_form.salary.errors }}</div>
+                <button class="add-button" type="submit">Adicionar</button>
+            </form>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Nome</th><th>Cargo</th><th>Salário</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
+                    <tbody>
+                        {% for employee in employees %}
+                            <tr>
+                                <td>{{ employee.name }}</td>
+                                <td>{{ employee.role }}</td>
+                                <td>R$ {{ employee.salary|floatformat:2 }}</td>
+                                <td class="action-cell"><form method="post">{% csrf_token %}<input type="hidden" name="action" value="delete_employee"><input type="hidden" name="record_id" value="{{ employee.pk }}"><button class="delete-button" type="submit" aria-label="Excluir {{ employee.name }}">Excluir</button></form></td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="empty-row" colspan="4">Nenhum funcionário cadastrado.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

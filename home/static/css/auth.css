@@ -1,0 +1,127 @@
+:root {
+    --ink: #17241f;
+    --muted: #65736c;
+    --top: #69A9F1;
+    --green-dark: #325f40;
+    --paper: #f5f8f4;
+    --white: #ffffff;
+    --line: #e4eae3;
+    --coral: #f18f72;
+    --blue: #a7c9ff;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-inter: 'Inter';
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100svh;
+    width: 100%;
+    padding: 32px 16px;
+    background: var(--paper);
+}
+
+h1 {
+    text-align: center;
+}
+
+body > h3 {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: min(100%, 400px);
+    margin-top: 32px;
+    padding: 32px 24px;
+    border-radius: 10px;
+    background: var(--white);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+input {
+    width: 100%;
+    min-height: 48px;
+    margin: 8px 0;
+    padding: 0 12px;
+    border: 1px solid var(--muted);
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background: var(--top);
+    color: var(--white);
+    cursor: pointer;
+}
+
+span {
+    color: var(--top);
+}
+
+h1 {
+    font-family: var(--font-display);
+    font-size: 35px;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+}
+
+h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--green-dark);
+}
+
+p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+a { 
+    color: var(--top);
+    text-decoration: none;
+    font-family: var(--font-inter);
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .container {
+        padding: 28px 20px;
+    }
+}

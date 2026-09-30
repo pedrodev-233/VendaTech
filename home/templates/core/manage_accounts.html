@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerencie as contas da VendaTech.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/manage_accounts.css' %}">
+    <title>Contas | VendaTech</title>
+</head>
+<body>
+    <header class="admin-topbar">
+        <a class="logo" href="{% url 'index' %}" aria-label="VendaTech, página inicial"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="admin-nav" aria-label="Navegação administrativa">
+            <a href="{% url 'dashboard' %}">Meu painel <span aria-hidden="true">↗</span></a>
+            <span class="admin-identity"><span class="admin-dot" aria-hidden="true"></span> Superusuário</span>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <div class="admin-heading">
+            <div>
+                <p class="eyebrow"><span class="eyebrow-dot"></span> ADMINISTRAÇÃO</p>
+                <h1>Contas de usuário</h1>
+                <p class="admin-description">Bloqueie o acesso ou remova contas da plataforma.</p>
+            </div>
+            <p class="account-total"><strong>{{ accounts|length }}</strong> conta{{ accounts|length|pluralize:"s" }}</p>
+        </div>
+
+        {% if messages %}
+            <div class="admin-messages" role="status">
+                {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="accounts-section" aria-labelledby="accounts-title">
+            <div class="accounts-section-heading">
+                <div><p class="section-index">ACESSO À PLATAFORMA</p><h2 id="accounts-title">Usuários cadastrados</h2></div>
+                <span class="protected-note">Contas de superusuário não aparecem aqui.</span>
+            </div>
+            <div class="accounts-table-scroll">
+                <table>
+                    <thead>
+                        <tr><th>Usuário</th><th>E-mail</th><th>Cadastro</th><th>Status</th><th><span class="visually-hidden">Ações</span></th></tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                            <tr>
+                                <td class="account-name">{{ account.username }}</td>
+                                <td>{{ account.email|default:"—" }}</td>
+                                <td>{{ account.date_joined|date:"d/m/Y" }}</td>
+                                <td><span class="status-badge {% if account.is_active %}status-active{% else %}status-blocked{% endif %}"><span aria-hidden="true"></span>{% if account.is_active %}Ativa{% else %}Bloqueada{% endif %}</span></td>
+                                <td class="account-actions">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ account.pk }}">
+                                        {% if account.is_active %}
+                                            <input type="hidden" name="action" value="block_account">
+                                            <button class="action-button block-button" type="submit">Bloquear</button>
+                                        {% else %}
+                                            <input type="hidden" name="action" value="activate_account">
+                                            <button class="action-button activate-button" type="submit">Reativar</button>
+                                        {% endif %}
+                                    </form>
+                                    <form method="post" onsubmit="return confirm('Excluir esta conta permanentemente? Esta ação não pode ser desfeita.');">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ account.pk }}">
+                                        <input type="hidden" name="action" value="delete_account">
+                                        <button class="action-button delete-button" type="submit">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="empty-state" colspan="5">Ainda não há contas de usuário cadastradas.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

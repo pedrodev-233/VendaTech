@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
+    <title>VendaTech | Seu seu negócio em um só lugar</title>
+</head>
+<body>
+
+    <h1>Seja bem-vindo à <span>VendaTech</span></h1>
+    <h3 style="color: var(--muted);">Entre pra acessar sua conta</h3>
+
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+
+        <div class="card">
+            <h3>Crie sua conta</h3>
+        </div>
+
+        <input type="email" placeholder="Digite seu e-mail" name="email" required>
+
+        <input type="password" placeholder="Digite sua senha" name="password" required>
+
+        <input type="tel" placeholder="Digite seu telefone" name="phone" required>
+
+        <p>Já tem uma conta? <a href="{% url 'auth' %}">Faça o Login</a></p>
+        <button type="submit">Continuar...</button>
+        </form>
+    </div> 
+    
+</body>
+</html>
