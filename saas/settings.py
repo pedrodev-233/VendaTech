@@ -31,6 +31,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS').split(',')
 
+SECURE_PROXY_SSL_HEADER = config('SECURE_PROXY_SSL_HEADER').split(',')
+
 
 # Application definition
 
