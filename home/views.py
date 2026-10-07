@@ -1,11 +1,13 @@
+from datetime import date
+from decimal import Decimal, InvalidOperation
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
-from .forms import EmployeeForm, MonthlyResultForm, ProductForm
 from .models import Employee, MonthlyResult, Product
 
 # Create your views here.
@@ -61,43 +63,58 @@ def register(request):
 
 @login_required(login_url='auth')
 def dashboard(request):
-    forms_by_action = {
-        'product': ProductForm,
-        'result': MonthlyResultForm,
-        'employee': EmployeeForm,
-    }
-    forms = {action: form_class() for action, form_class in forms_by_action.items()}
-
     if request.method == 'POST':
-        action = request.POST.get('action', '')
-        if action in forms_by_action:
-            form = forms_by_action[action](request.POST)
-            if form.is_valid():
-                record = form.save(commit=False)
-                record.owner = request.user
-                record.save()
-                messages.success(request, 'Registro adicionado.')
-                return redirect('dashboard')
-            forms[action] = form
-        elif action in {'delete_product', 'delete_result', 'delete_employee'}:
-            model = {
-                'delete_product': Product,
-                'delete_result': MonthlyResult,
-                'delete_employee': Employee,
-            }[action]
-            record = get_object_or_404(model, pk=request.POST.get('record_id'), owner=request.user)
-            record.delete()
-            messages.success(request, 'Registro excluído.')
-            return redirect('dashboard')
+        action = request.POST.get('action')
+
+        if action == 'product':
+            Product.objects.create(
+                owner=request.user,
+                name=request.POST.get('name'),
+                value=request.POST.get('value')
+            )
+
+        elif action == 'result':
+            MonthlyResult.objects.create(
+                owner=request.user,
+                month=request.POST.get('month'),
+                expenses=request.POST.get('expenses'),
+                profit=request.POST.get('profit')
+            )
+
+        elif action == 'employee':
+            Employee.objects.create(
+                owner=request.user,
+                name=request.POST.get('name'),
+                role=request.POST.get('role'),
+                salary=request.POST.get('salary')
+            )
+
+        elif action == 'delete_product':
+            Product.objects.filter(
+                id=request.POST.get('record_id'),
+                owner=request.user
+            ).delete()
+
+        elif action == 'delete_result':
+            MonthlyResult.objects.filter(
+                id=request.POST.get('record_id'),
+                owner=request.user
+            ).delete()
+
+        elif action == 'delete_employee':
+            Employee.objects.filter(
+                id=request.POST.get('record_id'),
+                owner=request.user
+            ).delete()
+
+        return redirect('dashboard')
 
     context = {
         'products': Product.objects.filter(owner=request.user),
         'results': MonthlyResult.objects.filter(owner=request.user),
         'employees': Employee.objects.filter(owner=request.user),
-        'product_form': forms['product'],
-        'result_form': forms['result'],
-        'employee_form': forms['employee'],
     }
+
     return render(request, 'core/dashboard.html', context)
 
 
