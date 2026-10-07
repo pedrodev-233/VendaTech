@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
-from .models import Employee, MonthlyResult, Product
+from .models import Employee, MonthlyResult, Product, SalesRecord
 
 # Create your views here.
 def index(request):
@@ -66,6 +66,8 @@ def dashboard(request):
     if request.method == 'POST':
         action = request.POST.get('action')
 
+
+        # Ações de criar registros:
         if action == 'product':
             Product.objects.create(
                 owner=request.user,
@@ -89,13 +91,24 @@ def dashboard(request):
                 salary=request.POST.get('salary')
             )
 
-        elif action == 'delete_product':
+        elif action == 'sale':
+            SalesRecord.objects.create(
+                owner=request.user,
+                product_id=request.POST.get('product'),
+                quantity=request.POST.get('quantity'),
+                method_of_payment=request.POST.get('method_of_payment'),
+                sale_date=request.POST.get('sale_date')
+            )
+
+
+        # Ações de deletar registros:
+        if action == 'delete_product':
             Product.objects.filter(
                 id=request.POST.get('record_id'),
                 owner=request.user
             ).delete()
 
-        elif action == 'delete_result':
+        elif action == 'delete_result': 
             MonthlyResult.objects.filter(
                 id=request.POST.get('record_id'),
                 owner=request.user
@@ -113,6 +126,7 @@ def dashboard(request):
         'products': Product.objects.filter(owner=request.user),
         'results': MonthlyResult.objects.filter(owner=request.user),
         'employees': Employee.objects.filter(owner=request.user),
+        'sales': SalesRecord.objects.filter(owner=request.user),
     }
 
     return render(request, 'core/dashboard.html', context)

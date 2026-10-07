@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gerencie produtos, resultados e funcionários da sua empresa.">
+    <meta name="description" content="Acompanhe as vendas e organize a operação da sua empresa.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,11 +12,16 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 
     <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
-    <title>Painel | VendaTech</title>
+    <title>Área de vendas | VendaTech</title>
 </head>
 <body>
     <header class="dashboard-topbar">
         <a class="logo" href="{% url 'index' %}" aria-label="VendaTech, página inicial"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="dashboard-nav" aria-label="Navegação do painel">
+            <a class="dashboard-nav-active" href="#sales">Vendas</a>
+            <a href="#products">Produtos</a>
+            <a href="#results">Resultados</a>
+        </nav>
         <div class="dashboard-account">
             {% if request.user.is_superuser %}<a class="account-admin-link" href="{% url 'manage_accounts' %}">Contas</a>{% endif %}
             <span class="online-dot" aria-hidden="true"></span>{{ request.user.get_short_name|default:request.user.username }}
@@ -26,10 +31,11 @@
     <main class="dashboard-main">
         <div class="dashboard-heading">
             <div>
-                <p class="eyebrow"><span class="eyebrow-dot"></span> VISÃO GERAL</p>
-                <h1>Seu negócio, em ordem.</h1>
-                <p class="dashboard-intro">Acompanhe seus produtos, resultados e equipe em um só lugar.</p>
+                <p class="eyebrow"><span class="eyebrow-dot"></span> ÁREA DE VENDAS</p>
+                <h1>Vendas em foco.</h1>
+                <p class="dashboard-intro">Acompanhe seus registros e mantenha sua operação organizada.</p>
             </div>
+            <a class="sales-primary-action" href="#products">Ver catálogo <span aria-hidden="true">↗</span></a>
         </div>
 
         {% if messages %}
@@ -38,19 +44,140 @@
             </div>
         {% endif %}
 
-        <section class="management-section" aria-labelledby="products-title">
+        {% with sales_records=request.user.sales_records.all %}
+        <section class="sales-overview" id="sales" aria-labelledby="sales-title">
+            <div class="sales-section-heading">
+                <div>
+                    <p class="section-index">01 / ACOMPANHAMENTO</p>
+                    <h2 id="sales-title">Visão de vendas</h2>
+                </div>
+                <span class="sales-update"><span aria-hidden="true"></span> Seu histórico</span>
+            </div>
+
+            <div class="sales-metrics">
+                <article class="sales-metric-card sales-metric-featured">
+                    <div class="sales-metric-icon" aria-hidden="true">↗</div>
+                    <p>Vendas registradas</p>
+                    <strong>{{ sales_records|length }}</strong>
+                    <span>histórico de vendas</span>
+                </article>
+                <article class="sales-metric-card">
+                    <div class="sales-metric-icon sales-icon-blue" aria-hidden="true">▤</div>
+                    <p>Produtos no catálogo</p>
+                    <strong>{{ products|length }}</strong>
+                    <span>itens cadastrados</span>
+                </article>
+                <article class="sales-metric-card">
+                    <div class="sales-metric-icon sales-icon-peach" aria-hidden="true">◷</div>
+                    <p>Resultados acompanhados</p>
+                    <strong>{{ results|length }}</strong>
+                    <span>períodos registrados</span>
+                </article>
+            </div>
+
+            <section class="sale-entry" aria-labelledby="sale-entry-title">
+                <div class="sales-panel-heading">
+                    <div>
+                        <p class="sales-panel-kicker">NOVA MOVIMENTAÇÃO</p>
+                        <h3 id="sale-entry-title">Registrar uma venda</h3>
+                    </div>
+                </div>
+                <form class="entry-form sale-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="sale"><!-- Valor da action de criar venda -->
+                    <div class="entry-field">
+                        <label for="sale-product">Produto</label>
+                        <select id="sale-product" name="product" required>
+                            <option value="" selected disabled>Selecione um produto</option>
+                            {% for product in products %}
+                                <option value="{{ product.pk }}">{{ product.name }} — R$ {{ product.value|floatformat:2 }}</option>
+                            {% empty %}
+                                <option value="" disabled>Nenhum produto cadastrado</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="entry-field">
+                        <label for="sale-quantity">Quantidade</label>
+                        <input id="sale-quantity" name="quantity" type="number" min="1" step="1" placeholder="Ex.: 1" required>
+                    </div>
+                    <div class="entry-field">
+                        <label for="sale-payment">Forma de pagamento</label>
+                        <select id="sale-payment" name="method_of_payment" required>
+                            <option value="" selected disabled>Selecione</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Cartão de crédito">Cartão de crédito</option>
+                            <option value="Cartão de débito">Cartão de débito</option>
+                            <option value="Transferência">Transferência</option>
+                        </select>
+                    </div>
+                    <div class="entry-field">
+                        <label for="sale-date">Data da venda</label>
+                        <input id="sale-date" name="sale_date" type="date" required>
+                    </div>
+                    <button class="add-button" type="submit">Registrar venda</button>
+                </form>
+            </section>
+
+            <div class="sales-content-grid">
+                <section class="sales-history" aria-labelledby="sales-history-title">
+                    <div class="sales-panel-heading">
+                        <div>
+                            <p class="sales-panel-kicker">MOVIMENTAÇÕES</p>
+                            <h3 id="sales-history-title">Histórico de vendas</h3>
+                        </div>
+                        <span class="record-count">{{ sales_records|length }} registros</span>
+                    </div>
+                    <div class="table-scroll sales-table-scroll">
+
+
+                        <!-- TABELA: HISTORICO DE VENDAS -->
+                        <table>
+                            <thead>
+                                <tr><th>Produto</th><th>Quantidade</th><th>Pagamento</th><th>Data</th><th>Valor unitário</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in sales_records %}
+                                    <tr>
+                                        <td class="sales-product-name">{{ sale.product.name }}</td>
+                                        <td>{{ sale.quantity }}</td>
+                                        <td><span class="payment-tag">{{ sale.method_of_payment }}</span></td>
+                                        <td>{{ sale.sale_date|date:"d/m/Y" }}</td>
+                                        <td>R$ {{ sale.product.value|floatformat:2 }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td class="empty-row" colspan="5">Nenhuma venda registrada ainda.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <aside class="sales-shortcuts" aria-labelledby="sales-shortcuts-title">
+                    <p class="sales-panel-kicker">PRÓXIMO PASSO</p>
+                    <div class="shortcut-mark" aria-hidden="true">✳</div>
+                    <h3 id="sales-shortcuts-title">Tudo começa com um catálogo organizado.</h3>
+                    <p>Mantenha seus produtos e preços em dia para consultar as informações da sua operação com facilidade.</p>
+                    <a href="#products">Gerenciar produtos <span aria-hidden="true">→</span></a>
+                </aside>
+            </div>
+        </section>
+        {% endwith %}
+
+        <section class="management-section" id="products" aria-labelledby="products-title">
             <div class="section-heading">
                 <div><p class="section-index">01 / CATÁLOGO</p><h2 id="products-title">Produtos</h2></div>
                 <span class="record-count">{{ products|length }} registros</span>
             </div>
             <form class="entry-form products-form" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="action" value="product">
+                <input type="hidden" name="action" value="product"><!-- Valor da action de criar product -->
                 <div class="entry-field"><label for="product-name">Nome do produto</label><input id="product-name" name="name" type="text" maxlength="120" required></div>
                 <div class="entry-field"><label for="product-value">Valor (R$)</label><input id="product-value" name="value" type="number" min="0" step="0.01" required></div>
                 <button class="add-button" type="submit">Adicionar</button>
             </form>
             <div class="table-scroll">
+                <!-- TABELA: PRODUTOS -->
                 <table>
                     <thead><tr><th>Produto</th><th>Valor</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
                     <tbody>
@@ -68,7 +195,7 @@
             </div>
         </section>
 
-        <section class="management-section" aria-labelledby="results-title">
+        <section class="management-section" id="results" aria-labelledby="results-title">
             <div class="section-heading">
                 <div><p class="section-index">02 / FINANCEIRO</p><h2 id="results-title">Gastos e lucro</h2></div>
                 <span class="record-count">{{ results|length }} registros</span>
@@ -82,6 +209,7 @@
                 <button class="add-button" type="submit">Adicionar</button>
             </form>
             <div class="table-scroll">
+                <!-- TABELA: GASTOS E LUCRO -->
                 <table>
                     <thead><tr><th>Mês</th><th>Gastos</th><th>Lucro</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
                     <tbody>
@@ -114,6 +242,7 @@
                 <button class="add-button" type="submit">Adicionar</button>
             </form>
             <div class="table-scroll">
+                <!-- TABELA: FUNCIONARIOS -->
                 <table>
                     <thead><tr><th>Nome</th><th>Cargo</th><th>Salário</th><th><span class="visually-hidden">Ações</span></th></tr></thead>
                     <tbody>

@@ -29,3 +29,14 @@ class Employee(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class SalesRecord(models.Model):
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sales_records')
+	product = models.ForeignKey(Product, on_delete=models.CASCADE) # O Produto só pode ser vendido se estiver na tabela de produtos.
+	quantity = models.PositiveIntegerField()
+	method_of_payment = models.CharField(max_length=50)
+	sale_date = models.DateField()
+
+	def __str__(self):
+		return self.product.name
