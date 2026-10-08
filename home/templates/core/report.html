@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consulte o relatório de vendas, produtos, resultados e equipe da sua empresa.">
+    <meta name="report-api" content="{% url 'API_Relatorio' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <title>Relatório | VendaTech</title>
+</head>
+<body>
+    <header class="dashboard-topbar">
+        <a class="logo" href="/dashboard/" aria-label="Voltar ao painel"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="dashboard-nav" aria-label="Navegação do relatório">
+            <a href="/dashboard/">Meu painel</a>
+            <span class="dashboard-nav-active" aria-current="page">Relatório</span>
+        </nav>
+        <a class="report-back-link" href="/dashboard/">Voltar ao painel <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-heading report-heading">
+            <div>
+                <p class="eyebrow"><span class="eyebrow-dot"></span> ANÁLISE DA OPERAÇÃO</p>
+                <h1>Relatório da sua operação.</h1>
+                <p class="dashboard-intro">Acompanhe os dados atualizados de vendas, catálogo, resultados e equipe.</p>
+            </div>
+            <button class="sales-primary-action report-refresh" id="report-refresh" type="button">
+                Atualizar dados <span aria-hidden="true">↻</span>
+            </button>
+        </div>
+
+        <p class="report-status" id="report-status" role="status" aria-live="polite">Carregando dados do relatório…</p>
+
+        <div class="report-content" id="report-content" hidden>
+            <div class="report-metrics">
+                <article class="sales-metric-card sales-metric-featured">
+                    <p>Valor total vendido</p>
+                    <strong data-metric="sales-total">—</strong>
+                    <span>calculado a partir das vendas registradas</span>
+                </article>
+                <article class="sales-metric-card">
+                    <p>Vendas registradas</p>
+                    <strong data-metric="sales-count">—</strong>
+                    <span data-metric="units-sold">—</span>
+                </article>
+                <article class="sales-metric-card">
+                    <p>Lucro informado</p>
+                    <strong data-metric="profit-total">—</strong>
+                    <span data-metric="expenses-total">—</span>
+                </article>
+                <article class="sales-metric-card">
+                    <p>Produtos no catálogo</p>
+                    <strong data-metric="product-count">—</strong>
+                    <span>itens cadastrados</span>
+                </article>
+            </div>
+
+            <div class="report-tables">
+                <section class="sales-history report-table" aria-labelledby="report-sales-title">
+                    <div class="sales-panel-heading">
+                        <div><p class="sales-panel-kicker">MOVIMENTAÇÕES</p><h2 id="report-sales-title">Vendas</h2></div>
+                        <span class="record-count" data-count="sales">0 registros</span>
+                    </div>
+                    <div class="table-scroll sales-table-scroll">
+                        <table>
+                            <thead><tr><th>Data</th><th>Produto</th><th>Quantidade</th><th>Pagamento</th><th>Valor unitário</th><th>Total</th></tr></thead>
+                            <tbody id="report-sales-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="sales-history report-table" aria-labelledby="report-products-title">
+                    <div class="sales-panel-heading">
+                        <div><p class="sales-panel-kicker">CATÁLOGO</p><h2 id="report-products-title">Produtos</h2></div>
+                        <span class="record-count" data-count="products">0 registros</span>
+                    </div>
+                    <div class="table-scroll sales-table-scroll">
+                        <table>
+                            <thead><tr><th>Produto</th><th>Valor unitário</th></tr></thead>
+                            <tbody id="report-products-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="sales-history report-table" aria-labelledby="report-results-title">
+                    <div class="sales-panel-heading">
+                        <div><p class="sales-panel-kicker">FINANCEIRO</p><h2 id="report-results-title">Resultados mensais</h2></div>
+                        <span class="record-count" data-count="results">0 registros</span>
+                    </div>
+                    <div class="table-scroll sales-table-scroll">
+                        <table>
+                            <thead><tr><th>Mês</th><th>Gastos</th><th>Lucro</th></tr></thead>
+                            <tbody id="report-results-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="sales-history report-table" aria-labelledby="report-employees-title">
+                    <div class="sales-panel-heading">
+                        <div><p class="sales-panel-kicker">EQUIPE</p><h2 id="report-employees-title">Funcionários</h2></div>
+                        <span class="record-count" data-count="employees">0 registros</span>
+                    </div>
+                    <div class="table-scroll sales-table-scroll">
+                        <table>
+                            <thead><tr><th>Nome</th><th>Cargo</th><th>Salário</th></tr></thead>
+                            <tbody id="report-employees-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'js/report.js' %}" defer></script>
+</body>
+</html>

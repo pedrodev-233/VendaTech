@@ -1,12 +1,12 @@
-from datetime import date
-from decimal import Decimal, InvalidOperation
-
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .serializers import ProductSerializer, MonthlyResultSerializer, EmployeeSerializer, SalesRecordSerializer
+import requests
 
 from .models import Employee, MonthlyResult, Product, SalesRecord
 
@@ -133,9 +133,19 @@ def dashboard(request):
 
 
 @login_required(login_url='auth')
+def page_report(request):
+    url = 'http://localhost:8000/API/relatório/'
+
+    resposta = requests.get(url)
+    return render(request, 'core/report.html', {
+        'dados': resposta
+    })
+
+
+@login_required(login_url='auth')
 def manage_accounts(request):
     if not request.user.is_superuser:
-        raise PermissionDenied
+        return redirect('index')
 
     if request.method == 'POST':
         action = request.POST.get('action', '')
@@ -148,19 +158,42 @@ def manage_accounts(request):
         if action == 'block_account':
             account.is_active = False
             account.save(update_fields=['is_active'])
-            messages.success(request, f'A conta {account.username} foi bloqueada.')
+            return render(request, f'A conta {account.username} foi bloqueada.')
         elif action == 'activate_account':
             account.is_active = True
             account.save(update_fields=['is_active'])
-            messages.success(request, f'A conta {account.username} foi reativada.')
+            return render(request, f'A conta {account.username} foi reativada.')
         elif action == 'delete_account':
             username = account.username
             account.delete()
-            messages.success(request, f'A conta {username} foi excluída.')
+            return render(request, f'A conta {username} foi excluída.')
         else:
-            raise PermissionDenied
-
-        return redirect('manage_accounts')
+            return render(request, 'core/manage_accounts.html', {'error': 'Ação não permitida.'})
 
     accounts = User.objects.filter(is_superuser=False).order_by('username')
     return render(request, 'core/manage_accounts.html', {'accounts': accounts})
+
+
+# APIs
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def API_relatorio(request):
+    products = ProductSerializer(
+        Product.objects.filter(owner=request.user),many=True).data
+
+    results = MonthlyResultSerializer(
+        MonthlyResult.objects.filter(owner=request.user), many=True).data
+
+    employees = EmployeeSerializer(
+        Employee.objects.filter(owner=request.user), many=True).data
+
+    sales = SalesRecordSerializer(
+        SalesRecord.objects.filter(owner=request.user), many=True).data
+
+    dados = {
+        'products': products,
+        'results': results,
+        'employees': employees,
+        'sales': sales,
+    }
+    return Response(dados)

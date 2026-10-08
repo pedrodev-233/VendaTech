@@ -21,6 +21,7 @@
             <a class="dashboard-nav-active" href="#sales">Vendas</a>
             <a href="#products">Produtos</a>
             <a href="#results">Resultados</a>
+            <a href="{% url 'report' %}">Relatório</a>
         </nav>
         <div class="dashboard-account">
             {% if request.user.is_superuser %}<a class="account-admin-link" href="{% url 'manage_accounts' %}">Contas</a>{% endif %}
@@ -35,7 +36,10 @@
                 <h1>Vendas em foco.</h1>
                 <p class="dashboard-intro">Acompanhe seus registros e mantenha sua operação organizada.</p>
             </div>
-            <a class="sales-primary-action" href="#products">Ver catálogo <span aria-hidden="true">↗</span></a>
+            <div class="buttons">
+                <a class="sales-primary-action" href="#products">Ver catálogo <span aria-hidden="true">↗</span></a>
+                <a class="sales-primary-action" href="{% url 'report' %}">Ver Relatório <span aria-hidden="true">↗</span></a>
+            </div>
         </div>
 
         {% if messages %}

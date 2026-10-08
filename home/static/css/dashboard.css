@@ -18,6 +18,12 @@
     overflow-wrap: anywhere;
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .dashboard-account .online-dot {
     width: 8px;
     height: 8px;
@@ -376,6 +382,7 @@
     font-size: 12px;
     font-weight: 700;
     transition: background 160ms ease, transform 160ms ease;
+    margin: 10px;
 }
 
 .sales-primary-action:hover {
