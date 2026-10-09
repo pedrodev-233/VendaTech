@@ -134,7 +134,7 @@ def dashboard(request):
 
 @login_required(login_url='auth')
 def page_report(request):
-    url = 'http://localhost:8000/API/relatório/'
+    url = 'http://vendatech-mq63.onrender.com/API/relatório/'
 
     resposta = requests.get(url)
     return render(request, 'core/report.html', {
