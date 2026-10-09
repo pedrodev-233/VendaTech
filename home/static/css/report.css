@@ -79,6 +79,143 @@
     white-space: normal;
 }
 
+.report-goal {
+    margin-top: 14px;
+}
+
+.report-goal .sales-panel-heading h2 {
+    font-size: 20px;
+}
+
+.report-goal-current {
+    color: var(--green-dark);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.report-goal-summary {
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+}
+
+.report-goal-status {
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: #eef1ed;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.report-goal-status-near {
+    background: #fff2d5;
+    color: #805400;
+}
+
+.report-goal-status-achieved {
+    background: #e4edd8;
+    color: var(--green-dark);
+}
+
+.report-goal-status-far {
+    background: #eef1ed;
+    color: var(--muted);
+}
+
+.report-goal-details {
+    margin-bottom: 18px;
+}
+
+.report-goal-progress-copy {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.report-goal-progress-copy span:last-child {
+    text-align: right;
+}
+
+.report-goal-progress-track {
+    height: 10px;
+    margin-top: 9px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #e8eee4;
+}
+
+.report-goal-progress-track[hidden] {
+    display: none;
+}
+
+.report-goal-progress-track > span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #72a447;
+    transition: width 220ms ease;
+}
+
+.report-goal-form {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+}
+
+.report-goal-form label {
+    display: grid;
+    flex: 1;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.report-goal-form input {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+    font: inherit;
+}
+
+.report-goal-form input:focus {
+    border-color: var(--green-dark);
+    outline: 2px solid #325f4026;
+}
+
+.report-goal-form .sales-primary-action {
+    flex: 0 0 auto;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+.report-goal-feedback {
+    min-height: 16px;
+    margin-top: 4px;
+    color: var(--green-dark);
+    font-size: 12px;
+}
+
+.report-goal-note {
+    margin-top: 8px;
+    color: #859188;
+    font-size: 11px;
+}
+
+.report-goal-feedback-error {
+    color: #8f3828;
+}
+
 @media (max-width: 760px) {
     .report-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -94,6 +231,15 @@
         align-items: flex-start;
         flex-direction: column;
         gap: 18px;
+    }
+
+    .report-goal-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .report-goal-form .sales-primary-action {
+        align-self: flex-start;
     }
 }
 

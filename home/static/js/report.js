@@ -2,9 +2,79 @@
     const status = document.getElementById('report-status');
     const refreshButton = document.getElementById('report-refresh');
     const content = document.getElementById('report-content');
+    const goalForm = document.getElementById('report-goal-form');
+    const goalInput = document.getElementById('report-goal-input');
+    const goalCurrent = document.getElementById('report-goal-current');
+    const goalStatus = document.getElementById('report-goal-status');
+    const goalProgressLabel = document.getElementById('report-goal-progress-label');
+    const goalRemaining = document.getElementById('report-goal-remaining');
+    const goalProgressTrack = document.getElementById('report-goal-progress-track');
+    const goalProgressBar = document.getElementById('report-goal-progress-bar');
+    const goalFeedback = document.getElementById('report-goal-feedback');
     const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
     const number = new Intl.NumberFormat('pt-BR');
+    const percentage = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
     const apiUrl = document.querySelector('meta[name="report-api"]').content;
+    const goalStorageKey = document.querySelector('meta[name="report-goal-storage-key"]').content;
+    let salesTotal = 0;
+    let salesGoal = null;
+
+    const setGoalFeedback = (message, isError = false) => {
+        goalFeedback.textContent = message;
+        goalFeedback.classList.toggle('report-goal-feedback-error', isError);
+    };
+
+    const renderGoalProgress = () => {
+        goalCurrent.textContent = money(salesTotal);
+        if (salesGoal === null) {
+            goalStatus.textContent = 'Defina uma meta';
+            goalStatus.className = 'report-goal-status';
+            goalProgressLabel.textContent = 'Defina uma meta para acompanhar seu progresso.';
+            goalRemaining.textContent = '';
+            goalProgressTrack.hidden = true;
+            return;
+        }
+
+        const progress = salesTotal / salesGoal * 100;
+        const cappedProgress = Math.min(progress, 100);
+        const remaining = Math.max(salesGoal - salesTotal, 0);
+        if (progress >= 100) {
+            goalStatus.textContent = 'Meta alcançada!';
+            goalStatus.className = 'report-goal-status report-goal-status-achieved';
+        } else if (progress >= 80) {
+            goalStatus.textContent = 'Perto da meta!';
+            goalStatus.className = 'report-goal-status report-goal-status-near';
+        } else {
+            goalStatus.textContent = 'Ainda não está perto';
+            goalStatus.className = 'report-goal-status report-goal-status-far';
+        }
+        goalProgressLabel.textContent = `${percentage.format(progress)}% da meta atingida`;
+        goalRemaining.textContent = remaining === 0
+            ? 'Meta alcançada!'
+            : `Faltam ${money(remaining)} para atingir a meta.`;
+        goalProgressTrack.hidden = false;
+        goalProgressTrack.setAttribute('aria-valuenow', String(cappedProgress));
+        goalProgressTrack.setAttribute('aria-valuetext', `${percentage.format(progress)}% da meta`);
+        goalProgressBar.style.width = `${cappedProgress}%`;
+    };
+
+    const loadSavedGoal = () => {
+        try {
+            const storedGoal = localStorage.getItem(goalStorageKey);
+            if (storedGoal === null) return null;
+
+            const value = Number(storedGoal);
+            if (!Number.isFinite(value) || value <= 0) {
+                setGoalFeedback('A meta salva é inválida. Informe um novo valor para substituí-la.', true);
+                return null;
+            }
+            goalInput.value = String(value);
+            return value;
+        } catch {
+            setGoalFeedback('Não foi possível acessar o armazenamento local deste navegador.', true);
+            return null;
+        }
+    };
 
     const setMetric = (name, value) => {
         document.querySelector(`[data-metric="${name}"]`).textContent = value;
@@ -81,7 +151,9 @@
                 return { ...sale, productName: product.name, unitValue, quantity, total: unitValue * quantity };
             });
 
-            setMetric('sales-total', money(sales.reduce((sum, sale) => sum + sale.total, 0)));
+            salesTotal = sales.reduce((sum, sale) => sum + sale.total, 0);
+            setMetric('sales-total', money(salesTotal));
+            renderGoalProgress();
             setMetric('sales-count', number.format(sales.length));
             setMetric('units-sold', `${number.format(sales.reduce((sum, sale) => sum + sale.quantity, 0))} unidades vendidas`);
             setMetric('profit-total', money(data.results.reduce((sum, result) => sum + Number(result.profit), 0)));
@@ -122,6 +194,26 @@
             refreshButton.disabled = false;
         }
     };
+
+    salesGoal = loadSavedGoal();
+    renderGoalProgress();
+    goalForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const value = Number(goalInput.value);
+        if (!Number.isFinite(value) || value <= 0) {
+            setGoalFeedback('Informe um valor de meta maior que zero.', true);
+            return;
+        }
+
+        try {
+            localStorage.setItem(goalStorageKey, String(value));
+            salesGoal = value;
+            renderGoalProgress();
+            setGoalFeedback('Meta salva neste navegador.');
+        } catch {
+            setGoalFeedback('Não foi possível salvar a meta neste navegador.', true);
+        }
+    });
 
     refreshButton.addEventListener('click', loadReport);
     loadReport();
