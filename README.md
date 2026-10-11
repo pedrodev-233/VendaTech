@@ -6,7 +6,7 @@ A VendaTech é um projeto em desenvolvimento, focado em ajudar pequenas empresas
 
 - Frontend: HTML, CSS e JS.
 
-- Ferramentas: Git, GitHub e UptimeRobot
+- Ferramentas: Git, GitHub, UptimeRobot e Render
 
 # Funcionalidades
 - Área de Vendas
@@ -14,6 +14,8 @@ A VendaTech é um projeto em desenvolvimento, focado em ajudar pequenas empresas
 - Tabela de Produtos
 - Controle de Gastos e Lucro
 - Tabela de Funcionarios
+- Login E Cadastro
+- Politica de privacidade
 
 # Comandos do Servidor
 - python manage.py runserver  --> Rodar o servidor

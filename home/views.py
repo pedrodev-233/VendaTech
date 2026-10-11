@@ -17,7 +17,10 @@ def index(request):
     return render(request, 'core/index.html')
 
 def page_not_found(request, exception):
-    return render(request, '404.html', status=404)
+    return render(request, 'core/404.html', status=404)
+
+def politicas(request):
+    return render(request, 'core/politica.html')
 
 def auth(request):
     email = ''

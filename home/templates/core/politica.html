@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Saiba como a VendaTech trata e protege os dados utilizados na plataforma.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/politica.css' %}">
+    <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <title>Política de Privacidade | VendaTech</title>
+</head>
+<body>
+    <header class="site-header">
+        <a class="logo" href="{% url 'index' %}" aria-label="VendaTech, página inicial"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="{% url 'index' %}">Início</a>
+            <a class="nav-login" href="{% url 'auth' %}">Entrar <span aria-hidden="true">↗</span></a>
+        </nav>
+    </header>
+
+    <main class="privacy-page">
+        <div class="privacy-heading">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> TRANSPARÊNCIA E CONFIANÇA</p>
+            <h1>Política de <span>Privacidade.</span></h1>
+            <p class="privacy-intro">Esta página explica, em linguagem simples, quais dados a VendaTech utiliza para oferecer a plataforma, por que os utiliza e como você pode exercer seus direitos.</p>
+            <p class="updated-date">Última atualização: 11 de outubro de 2026</p>
+        </div>
+
+        <div class="privacy-layout">
+            <aside class="privacy-aside">
+                <div class="privacy-aside-mark" aria-hidden="true">v.</div>
+                <p>Seus dados ajudam a organizar o seu negócio. A privacidade deles também importa.</p>
+                <a href="{% url 'index' %}">Voltar ao início <span aria-hidden="true">↗</span></a>
+            </aside>
+
+            <article class="privacy-content">
+                <section id="dados">
+                    <span class="section-number">01</span>
+                    <div>
+                        <h2>Quais dados utilizamos</h2>
+                        <p>Para criar e manter uma conta, a plataforma utiliza o e-mail e a senha informados no cadastro. A senha é gerenciada pelo sistema de autenticação do Django, que a armazena em formato protegido (hash), e não como texto legível.</p>
+                        <p>Ao usar o painel, você pode registrar informações de gestão da sua empresa:</p>
+                        <ul>
+                            <li>produtos e seus valores;</li>
+                            <li>resultados mensais, despesas e lucros;</li>
+                            <li>nome, função e salário de funcionários;</li>
+                            <li>vendas, produtos, quantidades, forma de pagamento e data.</li>
+                        </ul>
+                        <p>O formulário de cadastro também apresenta um campo de telefone. Embora enviado junto com o formulário, atualmente esse campo não é lido nem gravado pelo sistema. Ao inserir dados de funcionários ou de outras pessoas no painel, cadastre apenas o necessário e assegure que você tem autorização ou outra base legal para fazê-lo.</p>
+                    </div>
+                </section>
+
+                <section id="finalidades">
+                    <span class="section-number">02</span>
+                    <div>
+                        <h2>Como usamos os dados</h2>
+                        <p>Usamos as informações para criar e autenticar sua conta, exibir e organizar os registros que você cadastra no painel, gerar os dados do relatório e manter a segurança e o funcionamento da plataforma.</p>
+                        <p>Os registros do painel são associados à conta que os criou. A API de relatório exige autenticação e retorna os registros daquela conta.</p>
+                    </div>
+                </section>
+
+                <section id="armazenamento">
+                    <span class="section-number">03</span>
+                    <div>
+                        <h2>Armazenamento e segurança</h2>
+                        <p>Os dados da aplicação são armazenados no banco de dados configurado para o projeto. O sistema também utiliza sessões e proteção CSRF do Django, que podem gravar cookies necessários para manter o login e proteger o envio de formulários.</p>
+                        <p>Adotamos recursos técnicos disponíveis na aplicação, como autenticação, associação dos registros à conta e proteção das senhas por hash. Nenhum sistema conectado à internet pode garantir segurança absoluta; mantenha sua senha em sigilo e use uma senha exclusiva.</p>
+                    </div>
+                </section>
+
+                <section id="compartilhamento">
+                    <span class="section-number">04</span>
+                    <div>
+                        <h2>Compartilhamento com terceiros</h2>
+                        <p>A VendaTech não configura ferramentas próprias de publicidade ou análise comportamental. O acesso à plataforma pode envolver os serviços técnicos necessários para hospedagem e funcionamento do site, que podem processar dados de conexão conforme suas próprias políticas.</p>
+                        <p>As páginas carregam fontes do Google Fonts, o que faz o navegador solicitar esses arquivos ao Google. O site também oferece um link para iniciar uma conversa no WhatsApp; ao acessá-lo, você passa a usar um serviço externo sujeito às políticas desse provedor. Não enviamos automaticamente seus registros do painel por esse link.</p>
+                    </div>
+                </section>
+
+                <section id="retencao">
+                    <span class="section-number">05</span>
+                    <div>
+                        <h2>Retenção e exclusão</h2>
+                        <p>Os registros permanecem associados à conta enquanto forem mantidos na plataforma. Registros individuais podem ser removidos pelas funções de exclusão disponíveis no painel. A exclusão de uma conta pelo administrador remove também os registros vinculados, conforme as relações configuradas no sistema.</p>
+                        <p>Backups, registros técnicos ou obrigações legais podem afetar o prazo de eliminação definitiva, de acordo com a infraestrutura utilizada e a legislação aplicável.</p>
+                    </div>
+                </section>
+
+                <section id="direitos">
+                    <span class="section-number">06</span>
+                    <div>
+                        <h2>Seus direitos</h2>
+                        <p>Nos termos da legislação aplicável, incluindo a Lei Geral de Proteção de Dados (LGPD), você pode solicitar confirmação do tratamento, acesso, correção de dados incompletos ou desatualizados, informações sobre o uso, anonimização ou eliminação quando cabível, além dos demais direitos previstos em lei.</p>
+                        <p>Para fazer uma solicitação relacionada à privacidade, entre em contato pelo <a href="https://wa.me/5581994317883" target="_blank" rel="noopener noreferrer">WhatsApp da VendaTech</a>. Podemos solicitar informações necessárias para confirmar que o pedido é seu.</p>
+                    </div>
+                </section>
+
+                <section id="alteracoes">
+                    <span class="section-number">07</span>
+                    <div>
+                        <h2>Atualizações desta política</h2>
+                        <p>Esta política pode ser atualizada quando os recursos ou práticas da plataforma mudarem. A versão vigente ficará disponível nesta página, com a data da última atualização.</p>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="site-footer privacy-footer">
+        <a class="logo" href="{% url 'index' %}"><span class="logo-mark">v.</span> VendaTech</a>
+        <a href="{% url 'index' %}">Voltar para a página inicial <span aria-hidden="true">↗</span></a>
+        <span>© 2026 VendaTech. Todos os direitos reservados.</span>
+    </footer>
+</body>
+</html>
