@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from django.contrib.auth.models import User
 from .models import SalesRecord, Product
@@ -21,3 +21,12 @@ class SalesRecordTest(TestCase):
 
         self.assertEqual(sales.owner, user)
         self.assertEqual(sales.product, product)
+
+
+@override_settings(DEBUG=False)
+class ErrorPageTest(TestCase):
+    def test_unknown_url_returns_custom_not_found_page(self):
+        response = self.client.get('/pagina-inexistente/')
+
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, '404.html')
