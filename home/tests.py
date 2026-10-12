@@ -29,4 +29,4 @@ class ErrorPageTest(TestCase):
         response = self.client.get('/pagina-inexistente/')
 
         self.assertEqual(response.status_code, 404)
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'core/404.html')
