@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "home.middleware.UserIPMiddleware", # Requisição com o IP do usuario
 ]
 
 ROOT_URLCONF = 'saas.urls'

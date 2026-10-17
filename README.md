@@ -14,8 +14,11 @@ A VendaTech é um projeto em desenvolvimento, focado em ajudar pequenas empresas
 - Tabela de Produtos
 - Controle de Gastos e Lucro
 - Tabela de Funcionarios
-- Login E Cadastro
+- Controle de Metas Empresariais
+- Login E Cadastro seguros
 - Politica de privacidade
+- Controle de Acesso
+- Responsividade
 
 # Comandos do Servidor
 - python manage.py runserver  --> Rodar o servidor

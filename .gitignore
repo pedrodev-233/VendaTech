@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 error.log
+*.sqlite3
+db.sqlite3
