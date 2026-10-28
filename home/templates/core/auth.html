@@ -4,31 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre na VendaTech e acompanhe vendas, clientes e resultados da sua empresa em um só lugar.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
-
     <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
-    <title>VendaTech | Seu seu negócio em um só lugar</title>
+    <script src="{% static 'js/auth.js' %}" defer></script>
+    <title>VendaTech | Login</title>
 </head>
-<body>
+<body class="auth-page login-page">
+    <div class="auth-shell">
+        <aside class="auth-panel auth-panel--brand" aria-label="Informações da VendaTech">
+            <div class="brand-block">
+                <a class="brand" href="{% url 'index' %}"><span class="brand-mark">v.</span> VendaTech</a>
+                <p class="brand-tag">Gestão simples para quem quer crescer sem perder o controle.</p>
+            </div>
 
-    <h1>Seja bem-vindo à <span>VendaTech</span></h1>
-    <h3 style="color: var(--muted);">Entre pra acessar sua conta</h3>
+            <div class="panel-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> ACESSO RÁPIDO</p>
+                <h1>Seu negócio mais claro, organizado e disponível quando você precisar.</h1>
+            </div>
 
-    <div class="container">
-        <form method="POST">
-            {% csrf_token %}
+            <ul class="feature-list" aria-label="Benefícios da plataforma">
+                <li><span>✓</span> Organização de vendas e clientes</li>
+                <li><span>✓</span> Relatórios em tempo real</li>
+                <li><span>✓</span> Equipe mais alinhada</li>
+            </ul>
+        </aside>
 
-        <div class="card">
-            <h3>Faça o Login</h3>
-        </div>
+        <main class="auth-panel auth-panel--form">
+            <div class="form-card">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> LOGIN</p>
+                <h2>Bem-vindo de volta</h2>
+                <p class="subtitle">Entre para acessar sua conta e continuar com o seu dia.</p>
 
-        <input type="email" placeholder="Digite seu e-mail" name="email" required>
-        <input type="password" placeholder="Digite sua senha" name="password" required>
+                <form method="POST">
+                    {% csrf_token %}
 
-        <p>Ainda não tem uma conta? <a href="{% url 'register' %}">Cadastre-se</a></p>
-        <button type="submit">Entrar</button>
-        </form>
+                    <label class="field-group">
+                        <span>E-mail</span>
+                        <input type="email" placeholder="seuemail@empresa.com" name="email" required>
+                    </label>
+
+                    <label class="field-group">
+                        <span>Senha</span>
+                        <div class="password-field">
+                            <input type="password" placeholder="Digite sua senha" name="password" required>
+                            <button type="button" class="password-toggle" aria-label="Mostrar senha" data-target="password">
+                                <span class="toggle-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </label>
+
+                    <button type="submit">Entrar</button>
+                    <p class="helper-text">Ainda não tem uma conta? <a href="{% url 'register' %}">Crie agora</a></p>
+                </form>
+            </div>
+        </main>
     </div>
-    
-</body> 
+</body>
 </html>

@@ -675,7 +675,7 @@ a {
 
 .feature-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
     margin-top: 43px;
 }
@@ -707,6 +707,10 @@ a {
     background: #edf1f8;
 }
 
+.feature-lilac {
+    background: #edf6ea;
+}
+
 .feature-icon {
     display: grid;
     width: 39px;
@@ -729,6 +733,12 @@ a {
     border-color: #d5dfee;
     background: #f8faff;
     color: #5577aa;
+}
+
+.feature-lilac .feature-icon {
+    border-color: #cfe4c9;
+    background: #f7fbf6;
+    color: #4d7b4c;
 }
 
 .feature-number {
@@ -979,6 +989,10 @@ a {
     .features,
     .site-footer {
         width: min(100% - 56px, 760px);
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .hero {
