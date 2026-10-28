@@ -1,4 +1,5 @@
 import logging
+from .models import IpUser
 
 logger = logging.getLogger(__name__)
 
@@ -11,6 +12,12 @@ class UserIPMiddleware:
         response = self.get_response(request)
 
         ip = request.META.get("REMOTE_ADDR", "Desconhecido")
+        method = request.method
+        page = request.path
+
+        IpUser.objects.create(ip=ip,
+                              method=method,
+                              page=page)
 
         print(
             f"[{response.status_code}] "
