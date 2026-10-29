@@ -51,11 +51,6 @@ INSTALLED_APPS = [
     'home',
 ]
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # la pra o django servir arquivos estáticos em produção
@@ -80,7 +75,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                "django.template.context_processors.request",
                 'django.contrib.messages.context_processors.messages',
             ],
         },
