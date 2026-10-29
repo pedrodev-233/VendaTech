@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -72,6 +72,12 @@ def dashboard(request):
     if request.method == 'POST':
         action = request.POST.get('action')
 
+        if action == 'delete_own_account':
+            account = request.user
+            username = account.username
+            logout(request)
+            account.delete()
+            return redirect('auth')
 
         # Ações de criar registros:
         if action == 'product':
@@ -142,6 +148,72 @@ def dashboard(request):
 def page_report(request):
     
     return render(request, 'core/report.html')
+
+
+@login_required(login_url='auth')
+def account_settings(request):
+    user = request.user
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'update_account':
+            username = (request.POST.get('username') or '').strip()
+            email = (request.POST.get('email') or '').strip()
+            password = request.POST.get('password', '').strip()
+            password_confirm = request.POST.get('password_confirm', '').strip()
+
+            if not username or not email:
+                return render(request, 'core/account_settings.html', {
+                    'user': user,
+                    'error': 'Nome de usuário e email são obrigatórios.'
+                })
+
+            if User.objects.filter(username__iexact=username).exclude(pk=user.pk).exists():
+                return render(request, 'core/account_settings.html', {
+                    'user': user,
+                    'error': 'Este nome de usuário já está em uso.'
+                })
+
+            if User.objects.filter(email__iexact=email).exclude(pk=user.pk).exists():
+                return render(request, 'core/account_settings.html', {
+                    'user': user,
+                    'error': 'Este email já está cadastrado para outra conta.'
+                })
+
+            if password or password_confirm:
+                if password != password_confirm:
+                    return render(request, 'core/account_settings.html', {
+                        'user': user,
+                        'error': 'As senhas não coincidem.'
+                    })
+
+            user.username = username
+            user.email = email
+            if password:
+                user.set_password(password)
+            user.save()
+
+            return render(request, 'core/account_settings.html', {
+                'user': user,
+                'success': 'Dados da conta atualizados com sucesso.'
+            })
+
+        elif action == 'delete_account':
+            current_password = request.POST.get('delete_password', '')
+
+            if not user.check_password(current_password):
+                return render(request, 'core/account_settings.html', {
+                    'user': user,
+                    'error': 'Senha incorreta. Não foi possível excluir a conta.'
+                })
+
+            username = user.username
+            logout(request)
+            user.delete()
+            return redirect('auth')
+
+    return render(request, 'core/account_settings.html', {'user': user})
 
 
 @login_required(login_url='auth')

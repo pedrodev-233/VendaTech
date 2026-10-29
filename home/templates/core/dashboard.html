@@ -22,6 +22,8 @@
             <a href="#products">Produtos</a>
             <a href="#results">Resultados</a>
             <a href="{% url 'report' %}">Relatório</a>
+            <a href="https://wa.me/5581994317883">Contato</a>
+            <a class="account-settings-link" href="{% url 'account_settings' %}"><img width="24" height="24" src="https://img.icons8.com/softteal/24/settings.png" alt="settings"/></a>
         </nav>
         <div class="dashboard-account">
             {% if request.user.is_superuser %}<a class="account-admin-link" href="{% url 'manage_accounts' %}">Contas</a>{% endif %}
@@ -36,11 +38,11 @@
                 <h1>Vendas em foco.</h1>
                 <p class="dashboard-intro">Acompanhe seus registros e mantenha sua operação organizada.</p>
             </div>
-            <div class="buttons">
-                <a class="sales-primary-action" href="#products">Ver catálogo <span aria-hidden="true">↗</span></a>
-                <a class="sales-primary-action" href="{% url 'report' %}">Ver Relatório <span aria-hidden="true">↗</span></a>
-                <a class="sales-primary-action" href="https://wa.me/5581994317883">WhatsApp</a>
-            </div>
+            <form method="post" class="delete-account-form" onsubmit="return confirm('Tem certeza que deseja excluir sua conta permanentemente?');">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete_own_account">
+                <button class="delete-button delete-account-button" type="submit">Excluir minha conta</button>
+            </form>
         </div>
 
         {% if messages %}

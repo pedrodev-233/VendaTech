@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Configurações da conta do usuário VendaTech.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <title>Configurações da conta | VendaTech</title>
+</head>
+<body>
+    <header class="dashboard-topbar">
+        <a class="logo" href="{% url 'index' %}" aria-label="VendaTech, página inicial"><span class="logo-mark">v.</span> VendaTech</a>
+        <nav class="dashboard-nav" aria-label="Navegação da conta">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="dashboard-nav-active" href="{% url 'account_settings' %}">Configuração</a>
+            <a href="{% url 'report' %}">Relatório</a>
+            <a href="https://wa.me/5581994317883">Contato</a>
+        </nav>
+        <div class="dashboard-account">
+            {% if request.user.is_superuser %}<a class="account-admin-link" href="{% url 'manage_accounts' %}">Contas</a>{% endif %}
+            <span class="online-dot" aria-hidden="true"></span>{{ user.get_short_name|default:user.username }}
+        </div>
+    </header>
+
+    <main class="dashboard-main settings-page">
+        <div class="dashboard-heading settings-heading">
+            <div>
+                <p class="eyebrow"><span class="eyebrow-dot"></span> CONFIGURAÇÕES</p>
+                <h1>Minha conta</h1>
+                <p class="dashboard-intro">Atualize seus dados pessoais e gerencie a sua conta com segurança.</p>
+            </div>
+        </div>
+
+        {% if error %}
+            <div class="dashboard-messages dashboard-message-error" role="alert">{{ error }}</div>
+        {% endif %}
+
+        {% if success %}
+            <div class="dashboard-messages" role="status">{{ success }}</div>
+        {% endif %}
+
+        <div class="settings-layout">
+            <section class="settings-card">
+                <h2>Dados pessoais</h2>
+                <form method="post" class="settings-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_account">
+
+                    <div class="settings-grid">
+                        <div class="entry-field">
+                            <label for="username">Nome de usuário</label>
+                            <input id="username" name="username" type="text" value="{{ user.username }}" required>
+                        </div>
+
+                        <br>
+
+                        <div class="entry-field">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" value="{{ user.email|default_if_none:'' }}" required>
+                        </div>
+
+                        <br>
+
+                        <div class="entry-field">
+                            <label for="password">Nova senha</label>
+                            <input id="password" name="password" type="password" placeholder="Deixe em branco para manter a atual">
+                        </div>
+
+                        <br>
+
+                        <div class="entry-field">
+                            <label for="password_confirm">Confirmar nova senha</label>
+                            <input id="password_confirm" name="password_confirm" type="password" placeholder="Repita a nova senha">
+                        </div>
+                    </div>
+
+                    <button style='margin: 10px;' class="add-button" type="submit">Salvar alterações</button>
+                </form>
+            </section>
+
+            <br><br>
+
+            <section class="settings-card danger-card">
+                <h1>Excluir conta</h1>
+                <p>Ao excluir sua conta, todos os seus dados e registros cadastrados serão removidos permanentemente.</p>
+                <br>
+
+                <form method="post" class="settings-delete-form" onsubmit="return confirm('Tem certeza que deseja excluir sua conta permanentemente?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_account">
+
+                    <div class="entry-field">
+                        <label for="delete_password">Confirme sua senha</label>
+                        <input id="delete_password" name="delete_password" type="password" required>
+                    </div>
+
+                    <button style="height: 5vh; width: 150px; margin: 10px;" class="delete-button delete-account-button" type="submit">Excluir minha conta</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
