@@ -99,5 +99,48 @@
         <a href="{% url 'politica' %}">Política de Privacidade</a>
         <span>© 2026 VendaTech. Todos os direitos reservados.</span>
     </footer>
+
+    <div id="privacyConsent" class="privacy-consent" role="dialog" aria-modal="true" aria-labelledby="privacyConsentTitle">
+        <div class="privacy-consent-card">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> PRIVACIDADE</p>
+            <h2 id="privacyConsentTitle">Você aceita as políticas de privacidade do site?</h2>
+            <p>
+                Leia nossa <a href="{% url 'politica' %}" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
+                antes de continuar. Ao aceitar, você confirma que leu e concorda com o uso de seus dados conforme descrito.
+            </p>
+            <div class="privacy-consent-actions">
+                <button type="button" class="button button-primary" data-privacy-action="accept">Aceitar</button>
+                <button type="button" class="button button-secondary" data-privacy-action="decline">Recusar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const consentKey = 'vendatech-privacy-consent';
+            const consentModal = document.getElementById('privacyConsent');
+
+            if (!consentModal) return;
+
+            const isDecisionStored = localStorage.getItem(consentKey);
+
+            if (isDecisionStored === 'accepted' || isDecisionStored === 'declined') {
+                consentModal.classList.add('hidden');
+                return;
+            }
+
+            document.body.classList.add('privacy-modal-open');
+            consentModal.classList.remove('hidden');
+
+            document.querySelectorAll('[data-privacy-action]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const decision = this.dataset.privacyAction;
+                    localStorage.setItem(consentKey, decision === 'accept' ? 'accepted' : 'declined');
+                    consentModal.classList.add('hidden');
+                    document.body.classList.remove('privacy-modal-open');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

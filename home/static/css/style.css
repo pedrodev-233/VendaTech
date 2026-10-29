@@ -236,10 +236,77 @@ a {
     background: var(--green-dark);
 }
 
+.button-secondary {
+    background: transparent;
+    border: 1px solid #d9e0d9;
+    color: var(--ink);
+}
+
+.button-secondary:hover {
+    background: #eef3ee;
+}
+
 .button-primary span,
 .button-dark span {
     color: var(--top);
     font-size: 17px;
+}
+
+.privacy-consent {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(12, 20, 16, 0.45);
+    z-index: 50;
+    transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.privacy-consent.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.privacy-consent-card {
+    width: min(100%, 540px);
+    padding: 32px 28px 24px;
+    border: 1px solid rgba(23, 36, 31, 0.08);
+    border-radius: 22px;
+    background: var(--white);
+    box-shadow: 0 20px 60px rgba(16, 26, 19, 0.18);
+}
+
+.privacy-consent-card h2 {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: clamp(24px, 4vw, 34px);
+    line-height: 1.12;
+}
+
+.privacy-consent-card p {
+    margin-top: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.privacy-consent-card a {
+    color: var(--green-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.privacy-consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+body.privacy-modal-open {
+    overflow: hidden;
 }
 
 .text-link {
