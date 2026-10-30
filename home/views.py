@@ -6,7 +6,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import ProductSerializer, MonthlyResultSerializer, EmployeeSerializer, SalesRecordSerializer
-import requests
 
 from .models import Employee, MonthlyResult, Product, SalesRecord
 
@@ -23,14 +22,14 @@ def politicas(request):
     return render(request, 'core/politica.html')
 
 def auth(request):
-    email = ''
+    name = ''
     password = ''   
 
     if request.method == 'POST':
-        email = request.POST.get('email')
+        name = request.POST.get('user')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=name, password=password)
 
         if user is not None:
             login(request, user)
@@ -44,6 +43,7 @@ def auth(request):
 
 def register(request):
     if request.method == 'POST':
+        username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -53,9 +53,9 @@ def register(request):
                 'error': 'Este email já está cadastrado.'
             })
 
-        # Cria o usuário
+        # Cria o usuário 
         new_user = User.objects.create_user(
-            username=email,
+            username=username,
             email=email,
             password=password
         )

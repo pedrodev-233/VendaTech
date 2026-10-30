@@ -38,11 +38,6 @@
                 <h1>Vendas em foco.</h1>
                 <p class="dashboard-intro">Acompanhe seus registros e mantenha sua operação organizada.</p>
             </div>
-            <form method="post" class="delete-account-form" onsubmit="return confirm('Tem certeza que deseja excluir sua conta permanentemente?');">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="delete_own_account">
-                <button class="delete-button delete-account-button" type="submit">Excluir minha conta</button>
-            </form>
         </div>
 
         {% if messages %}

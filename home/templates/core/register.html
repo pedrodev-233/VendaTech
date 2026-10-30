@@ -43,7 +43,12 @@
                     {% csrf_token %}
 
                     <label class="field-group">
-                        <span>E-mail</span>
+                        <span>Nome De Usuario</span>
+                        <input type="text" placeholder="Crie um nome de usuario: " name="username" required>
+                    </label>
+
+                    <label class="field-group">
+                        <span>Email</span>
                         <input type="email" placeholder="seuemail@empresa.com" name="email" required>
                     </label>
 
@@ -60,11 +65,6 @@
                                 </span>
                             </button>
                         </div>
-                    </label>
-
-                    <label class="field-group">
-                        <span>Telefone</span>
-                        <input type="tel" placeholder="(99) 99999-9999" name="phone" required>
                     </label>
 
                     <button type="submit">Continuar</button>
